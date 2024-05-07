@@ -4,7 +4,7 @@ class Media {
   static async getAll() {
     try {
       const client = await pool.connect();
-      const result = await client.query("SELECT * FROM Medias");
+      const result = await client.query("SELECT * FROM medias");
       client.release();
       return result.rows;
     } catch (error) {
@@ -25,18 +25,17 @@ class Media {
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   */
   static async create(
-    name,
+    media_name,
     original_filename,
-    path,
+    media_path,
     mime_type,
-    size,
-    uploaded_by
+    size
   ) {
     try {
       const client = await pool.connect();
       const result = await client.query(
-        "INSERT INTO Medias (name, original_filename, path, mime_type, size, uploaded_by, uploaded_at, createdAt, updatedAt) VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *",
-        [name, original_filename, path, mime_type, size, uploaded_by]
+        "INSERT INTO medias (media_name, original_filename, media_path, mime_type, size) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+        [media_name, original_filename, media_path, mime_type, size]
       );
       client.release();
       return result.rows[0];
@@ -48,7 +47,7 @@ class Media {
   static async getById(id) {
     try {
       const client = await pool.connect();
-      const result = await client.query("SELECT * FROM Medias WHERE id = $1", [
+      const result = await client.query("SELECT * FROM medias WHERE id = $1", [
         id,
       ]);
       client.release();
@@ -73,7 +72,7 @@ class Media {
     try {
       const client = await pool.connect();
       const result = await client.query(
-        "UPDATE Medias SET name = $1, original_filename = $2, path = $3, mime_type = $4, size = $5, uploaded_by = $6, updatedAt = CURRENT_TIMESTAMP WHERE id = $7 RETURNING *",
+        "UPDATE medias SET name = $1, original_filename = $2, path = $3, mime_type = $4, size = $5, uploaded_by = $6, updatedAt = CURRENT_TIMESTAMP WHERE id = $7 RETURNING *",
         [name, original_filename, path, mime_type, size, uploaded_by, id]
       );
       client.release();
@@ -89,7 +88,7 @@ class Media {
   static async deleteById(id) {
     try {
       const client = await pool.connect();
-      const result = await client.query("DELETE FROM Medias WHERE id = $1", [
+      const result = await client.query("DELETE FROM medias WHERE id = $1", [
         id,
       ]);
       client.release();

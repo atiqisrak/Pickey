@@ -1,7 +1,7 @@
 -- Delete all data from the tables
 DROP TABLE IF EXISTS blogs;
-DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS media;
+-- DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS medias;
 -- DROP TABLE IF EXISTS rolepermissions;
 -- DROP TABLE IF EXISTS userpasswords;
 -- DROP TABLE IF EXISTS users;
@@ -37,21 +37,20 @@ DROP TABLE IF EXISTS media;
 --         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 --         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );
-CREATE TABLE Categories (
+-- CREATE TABLE Categories (
+--     id SERIAL PRIMARY KEY,
+--     name VARCHAR(255) NOT NULL,
+--     description TEXT,
+--     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+CREATE TABLE Medias (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-CREATE TABLE Media (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    media_name VARCHAR(255) NOT NULL,
     original_filename VARCHAR(255) NOT NULL,
-    path VARCHAR(255) NOT NULL,
+    media_path VARCHAR(255) NOT NULL,
     mime_type VARCHAR(255) NOT NULL,
     size INTEGER NOT NULL,
-    uploaded_by INTEGER REFERENCES Users(id) NOT NULL,
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -63,7 +62,7 @@ CREATE TABLE Blogs (
     slug VARCHAR(255) UNIQUE NOT NULL,
     category_id INTEGER REFERENCES Categories(id) ON DELETE
     SET NULL,
-        cover_image_id INTEGER REFERENCES Media(id) ON DELETE
+        cover_image_id INTEGER REFERENCES Medias(id) ON DELETE
     SET NULL,
         seo_title VARCHAR(255),
         seo_description TEXT,

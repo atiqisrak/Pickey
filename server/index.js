@@ -11,6 +11,31 @@ app.use(express.json());
 // Mount routes
 app.use(routes);
 
+// Set the view engine to ejs
+app.set("view engine", "ejs");
+
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+app.get("/images", (req, res) => {
+  res.send("Hello World");
+});
+
+app.post("/images", upload.single("image"), (req, res) => {
+  // res.send("Uploaded Successfully");
+  res.json(req.file);
+});
+
 // Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
