@@ -21,7 +21,6 @@ const createMedia = async (req, res) => {
     if (err) {
       return res.status(400).json({ message: err.message });
     }
-
     try {
       const media = await Media.create(
         req.body.media_name,
@@ -36,23 +35,6 @@ const createMedia = async (req, res) => {
     }
   });
 };
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 const getAllMedias = async (req, res) => {
   try {
@@ -72,19 +54,6 @@ const getMediaById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-/*
-id SERIAL PRIMARY KEY,
-    media_name VARCHAR(255) NOT NULL,
-    original_filename VARCHAR(255) NOT NULL,
-    media_path VARCHAR(255) NOT NULL,
-    mime_type VARCHAR(255) NOT NULL,
-    size INTEGER NOT NULL,
-    uploaded_by INTEGER REFERENCES Users(id) NOT NULL,
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-*/
 
 const updateMedia = async (req, res) => {
   const id = req.params.id;
@@ -110,12 +79,31 @@ const updateMedia = async (req, res) => {
   }
 };
 
+const detachMedia = (filePath) => {
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error(err);
+      // return res.status(500).json({ message: err.message });
+      res.status(500).json({ message: err.message });
+      return res.json("File could not be deleted");
+    } else {
+      res.json("File was deleted");
+    }
+  });
+};
+
 const deleteMedia = async (req, res) => {
   const id = req.params.id;
   try {
     const deletedMedia = await Media.deleteById(id);
-    // Delete the file from the public/images folder
-    fs.unlinkSync(deletedMedia.media_path);
+    if (!deletedMedia || !deletedMedia.media_path) {
+      return res.status(404).json({ message: "Media deleted" });
+    }
+    const filePath = path.join(__dirname, "..", deletedMedia.media_path);
+    res.json("Deleting file: ", deletedMedia);
+
+    detachMedia(filePath);
+
     res.json(deletedMedia);
   } catch (error) {
     res.status(500).json({ message: error.message });

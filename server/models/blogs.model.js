@@ -21,13 +21,13 @@ class Blog {
     seo_title,
     seo_description,
     seo_keywords,
-    content_en,
+    content,
     author_id
   ) {
     try {
       const client = await pool.connect();
       const result = await client.query(
-        "INSERT INTO Blogs (title_en, title_bn, slug, category_id,cover_image_id,seo_title,seo_description,seo_keywords, content_en,author_id,createdAt, updatedAt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *",
+        "INSERT INTO Blogs (title_en, title_bn, slug, category_id,cover_image_id,seo_title,seo_description,seo_keywords, content,author_id,createdAt, updatedAt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *",
         [
           title_en,
           title_bn,
@@ -37,7 +37,7 @@ class Blog {
           seo_title,
           seo_description,
           seo_keywords,
-          content_en,
+          content,
           author_id,
         ]
       );
@@ -74,13 +74,13 @@ class Blog {
     seo_title,
     seo_description,
     seo_keywords,
-    content_en,
+    content,
     author_id
   ) {
     try {
       const client = await pool.connect();
       const result = await client.query(
-        "UPDATE Blogs SET title_en = $1, title_bn = $2, slug = $3, category_id = $4, cover_image_id = $5, seo_title = $6, seo_description = $7, seo_keywords = $8, content_en = $9, author_id = $10, updatedAt = CURRENT_TIMESTAMP WHERE id = $11 RETURNING *",
+        "UPDATE Blogs SET title_en = $1, title_bn = $2, slug = $3, category_id = $4, cover_image_id = $5, seo_title = $6, seo_description = $7, seo_keywords = $8, content = $9, author_id = $10, updatedAt = CURRENT_TIMESTAMP WHERE id = $11 RETURNING *",
         [
           title_en,
           title_bn,
@@ -90,7 +90,7 @@ class Blog {
           seo_title,
           seo_description,
           seo_keywords,
-          content_en,
+          content,
           author_id,
           id,
         ]

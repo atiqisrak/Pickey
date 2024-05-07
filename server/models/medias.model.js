@@ -11,19 +11,6 @@ class Media {
       throw new Error(error.message);
     }
   }
-
-  /* 
-   id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    original_filename VARCHAR(255) NOT NULL,
-    path VARCHAR(255) NOT NULL,
-    mime_type VARCHAR(255) NOT NULL,
-    size INTEGER NOT NULL,
-    uploaded_by INTEGER REFERENCES Users(id) NOT NULL,
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  */
   static async create(
     media_name,
     original_filename,
@@ -62,18 +49,17 @@ class Media {
 
   static async updateById(
     id,
-    name,
+    media_name,
     original_filename,
-    path,
+    media_path,
     mime_type,
-    size,
-    uploaded_by
+    size
   ) {
     try {
       const client = await pool.connect();
       const result = await client.query(
-        "UPDATE medias SET name = $1, original_filename = $2, path = $3, mime_type = $4, size = $5, uploaded_by = $6, updatedAt = CURRENT_TIMESTAMP WHERE id = $7 RETURNING *",
-        [name, original_filename, path, mime_type, size, uploaded_by, id]
+        "UPDATE medias SET media_name = $1, original_filename = $2, media_path = $3, mime_type = $4, size = $5 WHERE id = $6 RETURNING *",
+        [media_name, original_filename, media_path, mime_type, size, id]
       );
       client.release();
       if (result.rows.length === 0) {
