@@ -18,7 +18,7 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "public/images");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -28,7 +28,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.get("/images", (req, res) => {
-  res.send("Hello World");
+  res.render(
+    "upload",
+    { title: "My Image Gallery" } // This object will be passed to the EJS file
+  );
 });
 
 app.post("/images", upload.single("image"), (req, res) => {
