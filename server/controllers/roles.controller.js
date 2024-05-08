@@ -33,9 +33,8 @@ const updateRole = async (req, res) => {
   const id = req.params.id;
   const { name, description } = req.body;
   try {
-    const role = new Role(id, name, description);
-    const updatedRole = await role.update();
-    res.json(updatedRole);
+    const updatedRole = await Role.update(id, name, description);
+    res.json(updatedRole.message);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

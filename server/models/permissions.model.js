@@ -54,7 +54,12 @@ class Permission {
       if (result.rows.length === 0) {
         throw new Error("Permission not found");
       }
-      return result.rows[0];
+      return {
+        message: {
+          message: `Permission is successfully updated`,
+          data: result.rows[0],
+        },
+      };
     } catch (error) {
       throw new Error(error.message);
     }

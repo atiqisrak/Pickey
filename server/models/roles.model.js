@@ -53,7 +53,13 @@ class Role {
       if (result.rows.length === 0) {
         throw new Error("Role not found");
       }
-      return result.rows[0];
+      // return result.rows[0];
+      return {
+        message: {
+          message: `Role is successfully updated`,
+          data: result.rows[0],
+        },
+      };
     } catch (error) {
       throw new Error(error.message);
     }

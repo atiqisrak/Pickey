@@ -33,9 +33,12 @@ const updatePermission = async (req, res) => {
   const id = req.params.id;
   const { name, description } = req.body;
   try {
-    const permission = new Permission(id, name, description);
-    const updatedPermission = await permission.updatePermission();
-    res.json(updatedPermission);
+    const updatedPermission = await Permission.updatePermission(
+      id,
+      name,
+      description
+    );
+    res.json(updatedPermission.message);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
