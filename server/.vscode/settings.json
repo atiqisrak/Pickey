@@ -5,17 +5,6 @@
             "server": "localhost",
             "port": 5432,
             "driver": "PostgreSQL",
-            "name": "PG Local",
-            "database": "perntodo",
-            "username": "postgres",
-            "password": "4862",
-            "connectionTimeout": 30
-        },
-        {
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 5432,
-            "driver": "PostgreSQL",
             "name": "PG Blogger",
             "database": "blogger",
             "username": "postgres",

@@ -1,8 +1,8 @@
-const Permission = require("../models/permission.model");
+const Permission = require("../models/permissions.model");
 
 const getAllPermissions = async (req, res) => {
   try {
-    const permissions = await Permission.getAll();
+    const permissions = await Permission.getAllPermissions();
     res.json(permissions);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -12,7 +12,7 @@ const getAllPermissions = async (req, res) => {
 const getPermissionById = async (req, res) => {
   const id = req.params.id;
   try {
-    const permission = await Permission.getById(id);
+    const permission = await Permission.getPermissionById(id);
     res.json(permission);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -22,7 +22,7 @@ const getPermissionById = async (req, res) => {
 const createPermission = async (req, res) => {
   const { name, description } = req.body;
   try {
-    const newPermission = await Permission.create(name, description);
+    const newPermission = await Permission.createPermission(name, description);
     res.status(201).json(newPermission);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -34,7 +34,7 @@ const updatePermission = async (req, res) => {
   const { name, description } = req.body;
   try {
     const permission = new Permission(id, name, description);
-    const updatedPermission = await permission.update();
+    const updatedPermission = await permission.updatePermission();
     res.json(updatedPermission);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -44,9 +44,8 @@ const updatePermission = async (req, res) => {
 const deletePermission = async (req, res) => {
   const id = req.params.id;
   try {
-    const permission = new Permission(id);
-    const deletedPermission = await permission.delete();
-    res.json(deletedPermission);
+    const deletedPermission = await Permission.deletePermissionById(id);
+    res.json(deletedPermission.message);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

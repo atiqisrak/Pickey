@@ -44,9 +44,8 @@ const updateCategory = async (req, res) => {
 const deleteCategory = async (req, res) => {
   const id = req.params.id;
   try {
-    const category = new Category(id);
-    const deletedCategory = await category.delete();
-    res.json(deletedCategory);
+    const deletedCategory = await Category.delete(id);
+    res.json(deletedCategory.message);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -1,15 +1,6 @@
 const Blog = require("../models/blogs.model");
 const pool = require("../config/db.config");
 
-// const getAllBlogs = async (req, res) => {
-//   try {
-//     const blogs = await Blog.getAll();
-//     res.json(blogs);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
-
 const getAllBlogs = async (req, res) => {
   try {
     const client = await pool.connect();
